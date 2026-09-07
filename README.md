@@ -129,6 +129,39 @@ npm run dev:server     # Express API on :5000
 npm run dev:client     # Vite dev server on :5173 (proxies /api, /login, /auth to :5000)
 ```
 
+## Deploying to Render
+
+Render's Node build step does **not** automatically install the root
+(server) dependencies when you supply a custom Build Command, so the
+Build Command must install *both* the server deps and the client deps,
+then build the client:
+
+| Setting        | Value                          |
+|-----------------|----------------------------------|
+| Build Command    | `npm install && npm run build`     |
+| Start Command     | `npm start`                          |
+
+The root `npm run build` script (see `package.json`) then runs
+`npm install --prefix client --include=dev && npm run build --prefix client`.
+The `--include=dev` flag matters: Render sets `NODE_ENV=production`
+during the build, and a plain `npm install` silently skips
+`devDependencies` (which is where Vite lives) under `NODE_ENV=production` —
+without it the build fails with `vite: not found`.
+
+Set the environment variables listed above (`JWT_SECRET`,
+`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `APP_BASE_URL`, `DB_PATH`,
+`NODE_ENV=production`) in Render's **Environment** tab before deploying.
+
+**Node version:** the app pins Node to `22.x` (see `package.json`'s
+`engines` field and the `.node-version` file). This matters because
+`better-sqlite3` ships prebuilt native binaries for common Node
+versions; on a Node version too new to have a prebuilt binary yet,
+`npm install` falls back to compiling it from source with `node-gyp`,
+which can fail against a newer V8 API (this is what a
+`better_sqlite3.target.mk ... Error 1` / `node-gyp` build failure means).
+Render reads `.node-version` to pick the Node runtime, so no extra
+dashboard setting is needed — just make sure the file is committed.
+
 ## Database / storage
 
 SQLite via `better-sqlite3`. The `capsules` table is created
