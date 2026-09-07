@@ -1,0 +1,25 @@
+{
+  "name": "ai-capsule",
+  "version": "1.0.0",
+  "description": "AI Capsule - Cloud-Deployed AI Prompt Manager (CSE3CWA/CSE5006 Assignment 3)",
+  "main": "server/index.js",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix client",
+    "build": "npm install --prefix client && npm run build --prefix client",
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "dev:server": "node --watch server/index.js",
+    "dev:client": "npm run dev --prefix client"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^2.7.0"
+  }
+}

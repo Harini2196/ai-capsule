@@ -1,0 +1,107 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.home h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
+.tagline { color: var(--muted); margin-top: 0; }
+
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.btn:hover { background: #f0f1f3; }
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-danger { color: var(--danger); border-color: #fca5a5; }
+.btn-danger:hover { background: #fef2f2; }
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.capsule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0 2rem;
+}
+
+.capsule-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  flex: 1;
+}
+
+.capsule-form input,
+.capsule-form select,
+.capsule-form textarea {
+  font-size: 0.95rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+  color: var(--text);
+}
+
+.form-row { display: flex; gap: 1rem; }
+.form-row.checkboxes { gap: 1.5rem; align-items: center; }
+.checkbox { flex-direction: row !important; align-items: center; gap: 0.4rem !important; }
+.form-actions { display: flex; gap: 0.6rem; }
+
+.capsule-list { display: flex; flex-direction: column; gap: 1rem; }
+
+.capsule-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.capsule-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.capsule-card-header h3 { margin: 0; }
+
+.badge {
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.capsule-meta { color: var(--muted); font-size: 0.85rem; margin: 0.25rem 0; }
+.capsule-text { white-space: pre-wrap; }
+.capsule-summary, .capsule-notes { font-size: 0.9rem; color: var(--muted); }
+.capsule-flags { font-size: 0.85rem; }
+.capsule-card-actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+
+.empty-state { color: var(--muted); }
+.error { color: var(--danger); }
