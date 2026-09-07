@@ -111,14 +111,15 @@ npm install --prefix client # installs client deps
 
 cp .env.example .env
 # then edit .env: set JWT_SECRET, GITHUB_CLIENT_ID/SECRET,
-# and APP_BASE_URL=http://localhost:5000
+# and APP_BASE_URL=https://ai-capsule-7qlg.onrender.com/
+
 
 # Build the React app once (Express serves the built files):
 npm run build
 
 # Start the server (serves API + built frontend on :5000)
 npm start
-# open http://localhost:5000
+# open https://ai-capsule-7qlg.onrender.com/
 ```
 
 For frontend hot-reload during development, run the API and the Vite

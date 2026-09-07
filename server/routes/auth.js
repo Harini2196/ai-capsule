@@ -7,11 +7,20 @@ const router = express.Router();
 const {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
-  APP_BASE_URL,
   NODE_ENV,
 } = process.env;
 
+// Trim any trailing slash so we never accidentally build a redirect_uri
+// with a double slash (e.g. APP_BASE_URL="https://x.onrender.com/" would
+// otherwise produce ".../ /auth/github/callback" and GitHub would reject
+// it as "not associated with this application").
+const APP_BASE_URL = (process.env.APP_BASE_URL || '').replace(/\/+$/, '');
+
 const CALLBACK_PATH = '/auth/github/callback';
+
+function getRedirectUri() {
+  return `${APP_BASE_URL}${CALLBACK_PATH}`;
+}
 
 // GET /login - starts the GitHub OAuth flow (public)
 router.get('/login', (req, res) => {
@@ -20,8 +29,21 @@ router.get('/login', (req, res) => {
       .status(500)
       .send('Server misconfiguration: GITHUB_CLIENT_ID is not set.');
   }
+  if (!APP_BASE_URL) {
+    return res
+      .status(500)
+      .send('Server misconfiguration: APP_BASE_URL is not set.');
+  }
 
-  const redirectUri = `${APP_BASE_URL}${CALLBACK_PATH}`;
+  const redirectUri = getRedirectUri();
+
+  // Logged so you can compare this EXACT string, character for character,
+  // against the "Authorization callback URL" registered on your GitHub
+  // OAuth App. Any difference (http vs https, trailing slash, wrong host)
+  // causes GitHub's "redirect_uri is not associated with this application"
+  // error.
+  console.log(`[oauth] /login -> redirect_uri = ${redirectUri}`);
+
   const params = new URLSearchParams({
     client_id: GITHUB_CLIENT_ID,
     redirect_uri: redirectUri,
@@ -51,7 +73,7 @@ router.get(CALLBACK_PATH, async (req, res) => {
         client_id: GITHUB_CLIENT_ID,
         client_secret: GITHUB_CLIENT_SECRET,
         code,
-        redirect_uri: `${APP_BASE_URL}${CALLBACK_PATH}`,
+        redirect_uri: getRedirectUri(),
       }),
     });
     const tokenData = await tokenResp.json();
