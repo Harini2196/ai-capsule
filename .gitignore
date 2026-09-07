@@ -7,3 +7,4 @@ server/db/*.sqlite-journal
 .DS_Store
 *.log
 npm-debug.log*
+.github_app_creds
