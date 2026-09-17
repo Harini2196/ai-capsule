@@ -180,28 +180,89 @@ give durable storage instead.
 
 Run these against the **deployed** URL before submission:
 
-```bash
-# Test 1 - no authentication
-curl -i https://YOUR-APP/api/capsules
-# Required: 401 Unauthorized
 
-# Test 2 - fake / invalid JWT
-curl -i -H "Cookie: token=fake-token-123" https://YOUR-APP/api/capsules
-# Required: 401 Unauthorized
-```
+# Test 1 - public landing page
+```bash
+curl -i https://ai-capsule-7qlg.onrender.com/
+# Required: 200 OK with the React application HTML
+HTTP/1.1 200 OK
+Date: Thu, 17 Sep 2026 13:16:08 GMT
+Content-Type: text/html; charset=UTF-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Cache-Control: public, max-age=0
+cf-cache-status: DYNAMIC
+etag: W/"1cc-1a07c0da480"
+last-modified: Mon, 07 Sep 2026 13:27:44 GMT
+rndr-id: 1f3597a8-8259-4c83
+Server: cloudflare
+vary: Accept-Encoding
+x-render-origin-server: Render
+CF-RAY: a3c8623a5beb5ac8-MEL
+alt-svc: h3=":443"; ma=86400
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Capsule</title>
+    <script type="module" crossorigin src="/assets/index-CjguXoyE.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D2EJ3XNU.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+
+# Test 2 - no authentication on the protected API
+curl -i https://ai-capsule-7qlg.onrender.com/api/capsules
+
+HTTP/1.1 401 Unauthorized
+Date: Thu, 17 Sep 2026 13:32:19 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+cf-cache-status: DYNAMIC
+etag: W/"2b-PugKW2AbLejmrNQED4Ez3eaNRaI"
+rndr-id: 4d5a81e3-5770-42a3
+Server: cloudflare
+vary: Accept-Encoding
+x-render-origin-server: Render
+CF-RAY: a3c879ec4854b62e-MEL
+alt-svc: h3=":443"; ma=86400
+
+{"error":"Unauthorized: no token provided"}
+
+
+# Test 3 - fake / invalid JWT
+curl -i -H "Cookie: token=fake-token-123" https://ai-capsule-7qlg.onrender.com/api/capsules
+
+HTTP/1.1 401 Unauthorized
+Date: Thu, 17 Sep 2026 13:09:02 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+cf-cache-status: DYNAMIC
+etag: W/"32-HpVL5B5zGqsAhp6iWOVO4o5IvOs"
+rndr-id: a82a0c91-7f3a-42a5
+Server: cloudflare
+vary: Accept-Encoding
+x-render-origin-server: Render
+CF-RAY: a3c857cf9b70d87d-MEL
+alt-svc: h3=":443"; ma=86400
+
+{"error":"Unauthorized: invalid or expired token"}
 
 _Results obtained (fill in after deployment):_
 
 ```
-Test 1: <paste status + body>
-Test 2: <paste status + body>
-```
+
 
 ## Known limitation
 
-_Fill in one honest limitation, e.g.: "SQLite storage is not guaranteed
-to persist across redeploys on Render's free tier" or "Only GitHub OAuth
-is implemented; Google fallback was not needed."_
+ "SQLite storage is not guaranteed to persist across redeploys on Render's free tier" 
 
 ## AI-assisted development
 
